@@ -10,7 +10,7 @@ namespace Net50MoviesApp.Controllers
 {
     public class MoviesController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index1()
         {
             string filmBaslik = "Başlık1";
             string filmAciklama = "Çok önemli açıklama. Çok önemli, açıklama.";
@@ -27,7 +27,7 @@ namespace Net50MoviesApp.Controllers
             return View();
         }
 
-        public IActionResult Index1()
+        public IActionResult Index()
         {
             ViewBag.Title = "Movies";
             string filmBaslik = "Başlık1";
@@ -54,9 +54,10 @@ namespace Net50MoviesApp.Controllers
             };
             return View("Movies",model);
         }
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View();
+            var model = MovieRepository.GetById(id);
+            return View(model);
         }
     }
 

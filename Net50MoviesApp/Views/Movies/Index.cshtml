@@ -1,0 +1,19 @@
+﻿
+
+<h2> Movie/Index</h2>
+<div style="border:2px purple solid; padding:4px; width:300px;">
+    <p>@ViewBag.FilmBaslik</p>
+    <p>@ViewBag.FilmAciklama</p>
+    <p>@ViewBag.FilmYonetmen</p>
+    <ul>
+        @foreach (var item in ViewBag.Oyuncular)
+        {
+<li>@item</li>}
+    </ul>
+    <p>@ViewBag.CikisYili</p>
+</div>
+
+@section scripts
+{
+    <script src="~/js/myscript.js"></script>
+}

@@ -1,0 +1,9 @@
+﻿.frame {
+    border: 2px lime solid;
+    margin-bottom: 4px;
+    padding: 6px;
+}
+
+img{
+    width:100px;
+}

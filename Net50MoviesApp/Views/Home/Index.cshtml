@@ -1,0 +1,7 @@
+﻿@model HomePageViewModel
+    
+<p>Home/Index</p>
+    @foreach (var movie in Model.PopularMovies)
+    {
+        @await Html.PartialAsync("_movie", movie)
+    }

@@ -1,0 +1,8 @@
+﻿@model Movie
+
+
+@section header {
+    @await Html.PartialAsync("_header")
+}
+<h2> Movie/Index1</h2>
+@await Html.PartialAsync("_movie", Model) 

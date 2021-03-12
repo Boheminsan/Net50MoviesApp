@@ -15,5 +15,6 @@ namespace Net50MoviesApp.Models
         public string Year { get; set; }
         public string ImageUrl { get; set; }
         public string[] Cast{ get; set; }
+        public int GenreId { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Net50MoviesApp.ViewComponents
     {
         public IViewComponentResult Invoke()
         {
-           
+            ViewBag.Selected = RouteData.Values["id"];
             return View(GenreRepository.Genres);
         }
     }

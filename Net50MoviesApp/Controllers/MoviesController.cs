@@ -47,10 +47,20 @@ namespace Net50MoviesApp.Controllers
 
             return View(m);
         }
-        public IActionResult List()
+        public IActionResult List(int? id)
         {
-            var model = new MovieViewModel() { 
-            Movies=MovieRepository.Movies
+            var controller = RouteData.Values["controller"];
+            var action = RouteData.Values["action"];
+            var genid = RouteData.Values["id"];
+
+            var movies = MovieRepository.Movies;
+            if (id!=null)
+            {
+                movies = movies.Where(m => m.GenreId == id).ToList();
+            }
+
+            var model = new MovieViewModel() {
+                Movies = movies
             };
             return View("Movies",model);
         }

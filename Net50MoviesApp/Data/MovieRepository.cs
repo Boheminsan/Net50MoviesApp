@@ -19,7 +19,8 @@ namespace Net50MoviesApp.Data
             Director= "Sektöründe Öncü Yönetmen",
             Cast= new string[] { "Oyuncu1", "Oyuncu5", "Oyuncu2", "Oyuncu4" },
             Year= "2021",
-            ImageUrl="1.jpg"
+            ImageUrl="1.jpg",
+            GenreId=1
             },
             new Movie() {
                 MovieId=2,
@@ -28,7 +29,8 @@ namespace Net50MoviesApp.Data
             Director= "İsmini Vermek İstemeyen Yönetmen",
             Cast= new string[]{ "Oyuncu10", "Oyuncu2", "Oyuncu7", "Oyuncu3" },
             Year= "2005",
-            ImageUrl="2.jpg"
+            ImageUrl="2.jpg",
+            GenreId=3
             },
             new Movie() {
                 MovieId=3,
@@ -37,7 +39,8 @@ namespace Net50MoviesApp.Data
             Director= "Alemin Hızlı Yönetmeni",
             Cast= new string[]{ "Oyuncu3", "Oyuncu5", "Oyuncu4", "Oyuncu7" },
             Year= "2011",
-            ImageUrl="3.jpg"
+            ImageUrl="3.jpg",
+            GenreId=4
             },
             new Movie() {
             MovieId=4,Title= "Başlık4",
@@ -46,6 +49,7 @@ namespace Net50MoviesApp.Data
             Cast= new string[]{ "Oyuncu1", "Oyuncu3", "Oyuncu8", "Oyuncu5" },
             Year= "2014",
             ImageUrl="4.jpg"
+            ,GenreId=1
             },
             new Movie() {
                 MovieId=5,
@@ -54,7 +58,8 @@ namespace Net50MoviesApp.Data
             Director= "Çakma Yönetmen",
             Cast= new string[]{ "Oyuncu7", "Oyuncu2", "Oyuncu10", "Oyuncu9" },
             Year= "2008",
-            ImageUrl="5.jpg"
+            ImageUrl="5.jpg",
+            GenreId=2
             }};
         }
         public static List<Movie> Movies

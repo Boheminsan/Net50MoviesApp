@@ -70,14 +70,34 @@ namespace Net50MoviesApp.Data
             }
         }
 
-        public void Add(Movie movie)
+        public static void  Add(Movie movie)
         {
+            movie.MovieId = _movies.Count() + 1;
             _movies.Add(movie);
         }
         public static Movie GetById(int Id)
         {
             Movie result = _movies.FirstOrDefault(k => k.MovieId == Id);
             return result;
+        }
+        public static void Edit(Movie movie)
+        {
+            var mov = GetById(movie.MovieId);
+            mov.Title = movie.Title;
+            mov.Description = movie.Description;
+            mov.Director = movie.Director;
+            mov.ImageUrl = movie.ImageUrl;
+            mov.Year = movie.Year;
+            mov.GenreId = movie.GenreId;
+        }
+
+        public static void Delete(int MovieId)
+        {
+            var mov = GetById(MovieId);
+            if (mov != null)
+            {
+                _movies.Remove(mov);
+            }
         }
     }
 }

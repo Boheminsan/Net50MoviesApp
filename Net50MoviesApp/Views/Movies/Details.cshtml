@@ -1,5 +1,11 @@
 ﻿@model Movie
-
+@if (TempData["Message"] != null)
+{
+    @section message 
+        {
+        @await Html.PartialAsync("_message", (String)TempData["Message"])
+        }
+}
 <div class="card">
     <div class="row">
         <div class="col-md-3">
@@ -14,8 +20,7 @@
                     <ul>
                         @foreach (var item in Model.Cast)
                         {
-                            <li>@item</li>
-}
+            <li>@item</li>}
                     </ul>
                 </p>
             </div>

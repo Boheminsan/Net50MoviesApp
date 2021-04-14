@@ -1,21 +1,28 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Net50MoviesApp.Data;
 
 namespace Net50MoviesApp
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration _Configuration)
+        {
+            Configuration = _Configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MovieContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))
+            //options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+            );
             services.AddControllersWithViews();
         }
 
@@ -25,6 +32,7 @@ namespace Net50MoviesApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedData.Seed(app);
             }
             app.UseStaticFiles();
             app.UseRouting();
@@ -32,8 +40,8 @@ namespace Net50MoviesApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name:"default",
-                    pattern:"{controller=Home}/{action=Index}/{id?}");
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

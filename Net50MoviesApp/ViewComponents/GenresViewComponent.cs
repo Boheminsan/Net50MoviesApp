@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Net50MoviesApp.Data;
-using Net50MoviesApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Net50MoviesApp.ViewComponents
 {
+
     public class GenresViewComponent : ViewComponent
     {
+        private readonly MovieContext context;
+
+        public GenresViewComponent(MovieContext _context)
+        {
+            context = _context;
+        }
         public IViewComponentResult Invoke()
         {
             ViewBag.Selected = RouteData.Values["id"];
-            return View(GenreRepository.Genres);
+            return View(context.Genres.ToList());
         }
     }
 }

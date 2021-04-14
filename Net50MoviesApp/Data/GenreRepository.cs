@@ -1,8 +1,6 @@
-﻿using Net50MoviesApp.Models;
-using System;
+﻿using Net50MoviesApp.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Net50MoviesApp.Data
 {
@@ -34,8 +32,8 @@ namespace Net50MoviesApp.Data
         }
         public static Genre GetById(int Id)
         {
-           Genre result= _genres.FirstOrDefault(k => k.GenreId == Id);
+            Genre result = _genres.FirstOrDefault(k => k.GenreId == Id);
             return result;
-}
+        }
     }
 }

@@ -1,0 +1,58 @@
+﻿@model AdminEditMovieViewModel
+<h1>Movie Create</h1>
+
+<form asp-controller="Admin" asp-action="MovieCreate" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container">
+                <div class="mb-3">
+                    <label asp-for="Title">Title</label>
+                    <input asp-for="Title" class="form-control">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" rows="10" cols="30" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                @*<div class="mb-3">
+            <label asp-for="Director">Director</label>
+            <input asp-for="Director" class="form-control">
+            <span asp-validation-for="Director" class="text-danger"></span>
+        </div>*@
+                @*<div class="mb-3">
+                    <label asp-for="ImageUrl">ImageUrl</label>
+                    <input asp-for="ImageUrl" class="form-control">
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>*@
+                <div class="mb-3">
+                    <label asp-for="Year">Year</label>
+                    <input asp-for="Year" class="form-control">
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+                @*<div class="mb-3">
+            <label asp-for="GenreId">GenreId</label>
+            <select asp-for="GenreId" asp-items="@ViewBag.Genres" class="form-select">
+                <option value="null" disabled>Seçiniz</option>
+            </select>
+            <input asp-for="GenreId" class="form-control">
+            <span asp-validation-for="GenreId" class="text-danger"></span>
+        </div>*@
+                <button class="btn btn-info" type="submit">Kaydet</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            @foreach (var genre in (List<Genre>)ViewBag.Genres)
+            {
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="genreId" value="@genre.GenreId" id="genre_@(genre.GenreId)">
+                    <label class="form-check-label" for="genre_@(genre.GenreId)">
+                        @genre.Name
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+</form>
+
+

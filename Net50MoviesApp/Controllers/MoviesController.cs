@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Net50MoviesApp.Data;
+using Net50MoviesApp.Entity;
 using Net50MoviesApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Net50MoviesApp.Controllers
 {
     public class MoviesController : Controller
     {
+        private readonly MovieContext context;
+        public MoviesController(MovieContext _context)
+        {
+            context = _context;
+        }
         [HttpGet]
         public IActionResult Index1()
         {
@@ -35,16 +39,13 @@ namespace Net50MoviesApp.Controllers
             ViewBag.Title = "Movies";
             string filmBaslik = "Başlık1";
             string filmAciklama = "Çok önemli açıklama. Çok önemli, açıklama.";
-            string filmYonetmen = "Sektöründe Öncü Yönetmen";
-            string[] oyuncular = { "Oyuncu1", "Oyuncu2", "Oyuncu3", "Oyuncu4" };
+            //string filmYonetmen = "Sektöründe Öncü Yönetmen";
             string cikisYili = "2021";
 
             var m = new Movie()
             {
                 Title = filmBaslik,
                 Description = filmAciklama,
-                Director = filmYonetmen,
-                Cast = oyuncular,
                 Year = cikisYili
             };
 
@@ -60,10 +61,11 @@ namespace Net50MoviesApp.Controllers
             var action = RouteData.Values["action"];
             var genid = RouteData.Values["id"];
 
-            var movies = MovieRepository.Movies;
+            //var movies = MovieRepository.Movies;
+            var movies = context.Movies.AsQueryable();
             if (id != null)
             {
-                movies = movies.Where(m => m.GenreId == id).ToList();
+                movies = movies.Include(m => m.Genres).Where(m => m.Genres.Any(g => g.GenreId == id));
             }
             if (!String.IsNullOrEmpty(q))
             {
@@ -71,12 +73,11 @@ namespace Net50MoviesApp.Controllers
                 //ikinci yöntem
                 movies = movies.Where(t =>
                 t.Title.ToLower().Contains(q) ||
-                t.Description.ToLower().Contains(q)) 
-                .ToList();
+                t.Description.ToLower().Contains(q));
             }
             var model = new MovieViewModel()
             {
-                Movies = movies
+                Movies = movies.ToList()
             };
             return View("Movies", model);
         }
@@ -84,56 +85,62 @@ namespace Net50MoviesApp.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var model = MovieRepository.GetById(id);
+            //var model = MovieRepository.GetById(id);
+            var model = context.Movies.Find(id);
             return View(model);
         }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            ViewBag.Genres = new SelectList(GenreRepository.Genres, "GenreId", "Name");
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Movie entity)
-        {
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    ViewBag.Genres = new SelectList(context.Genres.ToList(), "GenreId", "Name");
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Create(Movie entity)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                //Movie entity //model binding
-                MovieRepository.Add(entity);
-                TempData["Message"] = $"{entity.Title} isimli film Eklendi.";
-                return RedirectToAction("List", "Movies");
-            }
-            ViewBag.Genres = new SelectList(GenreRepository.Genres, "GenreId", "Name");
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.Genres = new SelectList ( GenreRepository.Genres, "GenreId", "Name");
-            var movie = MovieRepository.GetById(id);
-            return View(movie) ;
-        }
-        [HttpPost]
-        public IActionResult Edit(Movie entity)
-        {
-            if (ModelState.IsValid)
-            {
-                MovieRepository.Edit(entity);
-                TempData["Message"] = $"{entity.Title} isimli film güncellendi.";
-                return RedirectToAction("Details", "Movies", new { @id = entity.MovieId });
-            }
-            ViewBag.Genres = new SelectList(GenreRepository.Genres, "GenreId", "Name");
-            return View(entity);
-        }
-        [HttpPost]
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Movie entity //model binding
+        //        //MovieRepository.Add(entity);
+        //        context.Movies.Add(entity);
+        //        context.SaveChanges();
+        //        TempData["Message"] = $"{entity.Title} isimli film Eklendi.";
+        //        return RedirectToAction("List", "Movies");
+        //    }
+        //    ViewBag.Genres = new SelectList(context.Genres.ToList(), "GenreId", "Name");
+        //    return View();
+        //}
+        //[HttpGet]
+        //public IActionResult Edit(int id)
+        //{
+        //    ViewBag.Genres = new SelectList(context.Genres.ToList(), "GenreId", "Name");
+        //    var movie = context.Movies.Find(id);
+        //    return View(movie);
+        //}
+        //[HttpPost]
+        //public IActionResult Edit(Movie entity)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        context.Movies.Update(entity);
+        //        context.SaveChanges();
+        //        TempData["Message"] = $"{entity.Title} isimli film güncellendi.";
+        //        return RedirectToAction("Details", "Movies", new { @id = entity.MovieId });
+        //    }
+        //    ViewBag.Genres = new SelectList(context.Genres.ToList(), "GenreId", "Name");
+        //    return View(entity);
+        //}
+        //[HttpPost]
 
-        public IActionResult Delete(int MovieId,string Title)
-        {
-            MovieRepository.Delete(MovieId);
-            TempData["Message"] = $"{Title} isimli film silindi.";
-            return RedirectToAction("List", "Movies");
-        }
+        //public IActionResult Delete(int MovieId, string Title)
+        //{
+        //    var entity = context.Movies.Find(MovieId);
+        //    context.Movies.Remove(entity);
+        //    context.SaveChanges();
+        //    TempData["Message"] = $"{Title} isimli film silindi.";
+        //    return RedirectToAction("List", "Movies");
+        //}
     }
 
 }

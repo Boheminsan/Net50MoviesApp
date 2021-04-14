@@ -1,20 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Net50MoviesApp.Data;
+using Net50MoviesApp.Entity;
 using Net50MoviesApp.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Net50MoviesApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly MovieContext context;
+
+        public HomeController(MovieContext _context)
+        {
+            context = _context;
+        }
         public IActionResult Index()
         {
             var model = new HomePageViewModel()
             {
-                PopularMovies = MovieRepository.Movies
+                PopularMovies = context.Movies.ToList()
             };
             return View(model);
         }

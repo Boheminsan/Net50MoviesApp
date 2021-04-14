@@ -5,18 +5,5 @@
 }
 
 img{
-    width:100px;
-}
-
-.form-inline {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-flow: row wrap;
-    flex-flow: row;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+    width:150px;
 }

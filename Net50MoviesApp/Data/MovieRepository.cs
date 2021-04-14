@@ -1,8 +1,6 @@
-﻿using Net50MoviesApp.Models;
-using System;
+﻿using Net50MoviesApp.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Net50MoviesApp.Data
 {
@@ -16,50 +14,45 @@ namespace Net50MoviesApp.Data
                 MovieId=1,
             Title= "Başlık1",
             Description = "Çok önemli açıklama. Çok önemli, açıklama.",
-            Director= "Sektöründe Öncü Yönetmen",
-            Cast= new string[] { "Oyuncu1", "Oyuncu5", "Oyuncu2", "Oyuncu4" },
+            //Director= "Sektöründe Öncü Yönetmen",
             Year= "2021",
             ImageUrl="1.jpg",
-            GenreId=1
+            //GenreId=1
             },
             new Movie() {
                 MovieId=2,
             Title= "Başlık2",
             Description = "Yok sana açıklama falan. Çok önemli bir açıklama.",
-            Director= "İsmini Vermek İstemeyen Yönetmen",
-            Cast= new string[]{ "Oyuncu10", "Oyuncu2", "Oyuncu7", "Oyuncu3" },
+            //Director= "İsmini Vermek İstemeyen Yönetmen",
             Year= "2005",
             ImageUrl="2.jpg",
-            GenreId=3
+            //GenreId=3
             },
             new Movie() {
                 MovieId=3,
             Title= "Başlık3",
             Description = "Tek açıklama. Pek güzel açıklama.",
-            Director= "Alemin Hızlı Yönetmeni",
-            Cast= new string[]{ "Oyuncu3", "Oyuncu5", "Oyuncu4", "Oyuncu7" },
+            //Director= "Alemin Hızlı Yönetmeni",
             Year= "2011",
             ImageUrl="3.jpg",
-            GenreId=4
+            //GenreId=4
             },
             new Movie() {
             MovieId=4,Title= "Başlık4",
             Description = "Çok iyi açıklama. Çok önemliyse açıklama.",
-            Director= "Gizli Yönetmen",
-            Cast= new string[]{ "Oyuncu1", "Oyuncu3", "Oyuncu8", "Oyuncu5" },
+            //Director= "Gizli Yönetmen",
             Year= "2014",
             ImageUrl="4.jpg"
-            ,GenreId=1
+            //,GenreId=1
             },
             new Movie() {
                 MovieId=5,
             Title= "Başlık5",
             Description = "Çok güzel açıklama. Çok açıklama.",
-            Director= "Çakma Yönetmen",
-            Cast= new string[]{ "Oyuncu7", "Oyuncu2", "Oyuncu10", "Oyuncu9" },
+            //Director= "Çakma Yönetmen",
             Year= "2008",
             ImageUrl="5.jpg",
-            GenreId=2
+            //GenreId=2
             }};
         }
         public static List<Movie> Movies
@@ -70,7 +63,7 @@ namespace Net50MoviesApp.Data
             }
         }
 
-        public static void  Add(Movie movie)
+        public static void Add(Movie movie)
         {
             movie.MovieId = _movies.Count() + 1;
             _movies.Add(movie);
@@ -85,10 +78,10 @@ namespace Net50MoviesApp.Data
             var mov = GetById(movie.MovieId);
             mov.Title = movie.Title;
             mov.Description = movie.Description;
-            mov.Director = movie.Director;
+            //mov.Director = movie.Director;
             mov.ImageUrl = movie.ImageUrl;
             mov.Year = movie.Year;
-            mov.GenreId = movie.GenreId;
+            //mov.GenreId = movie.GenreId;
         }
 
         public static void Delete(int MovieId)

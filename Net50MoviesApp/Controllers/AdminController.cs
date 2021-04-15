@@ -47,26 +47,40 @@ namespace Net50MoviesApp.Controllers
         public IActionResult MovieCreate()
         {
             ViewBag.Genres = context.Genres.ToList();
-            return View();
+            return View(new AdminCreateMovieViewModel());
         }
 
         [HttpPost]
-        public IActionResult MovieCreate(Movie m, int[] genreId)
+        public IActionResult MovieCreate(AdminCreateMovieViewModel m)
         {
+            if (m.Title!=null && m.Title.Contains("@"))
+            {
+                ModelState.AddModelError("", "Film başlığı @ işareti içeremez.");
+            }
+            
+                if (m.GenreIds==null)
+            {
+                ModelState.AddModelError("GenreIds", "Tür seçmediniz.");
+            }
             if (ModelState.IsValid)
             {
-                m.Genres = new List<Genre>();
-                foreach (var id in genreId)
+                var entity = new Movie()
                 {
-                    m.Genres.Add(context.Genres.FirstOrDefault(i=>i.GenreId==id));
+                    Title=m.Title,
+                    Description=m.Description
+                };
+                
+                foreach (var id in m.GenreIds)
+                {
+                    entity.Genres.Add(context.Genres.FirstOrDefault(i=>i.GenreId==id));
                 }
 
-                context.Movies.Add(m);
+                context.Movies.Add(entity);
                 context.SaveChanges();
                 return RedirectToAction("MovieList","Admin");
             }
             ViewBag.Genres = context.Genres.ToList();
-            return RedirectToAction("MovieList");
+            return RedirectToAction("MovieCreate");
         }
 
         [HttpGet]
@@ -85,7 +99,7 @@ namespace Net50MoviesApp.Controllers
                     Year = m.Year,
                     Description = m.Description,
                     ImageUrl = m.ImageUrl,
-                    SelectedGenres = m.Genres
+                    GenreIds = m.Genres.Select(i=>i.GenreId).ToArray()
                 }).FirstOrDefault(m => m.MovieId == id);
                 ViewBag.Genres = context.Genres.ToList();
                 if (entity == null)
@@ -98,6 +112,8 @@ namespace Net50MoviesApp.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> MovieUpdateAsync(AdminEditMovieViewModel model, int[] genreId, IFormFile file)
         {
+            if (ModelState.IsValid)
+            {
             var entity = context.Movies.Include(m => m.Genres).FirstOrDefault(m => m.MovieId == model.MovieId);
             if (entity == null)
             {
@@ -116,7 +132,7 @@ namespace Net50MoviesApp.Controllers
                 
                 entity.ImageUrl = filename;
 
-                using (var stream = new FileStream(path, FileMode.Create))
+                using (FileStream stream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
@@ -126,6 +142,9 @@ namespace Net50MoviesApp.Controllers
 
             context.SaveChanges();
             return RedirectToAction("MovieList");
+            }
+            ViewBag.Genres = context.Genres.ToList();
+            return View(model);
         }
 
         [HttpPost]
